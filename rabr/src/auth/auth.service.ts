@@ -56,8 +56,8 @@ export class AuthService {
     const accessToken = await this.generateAccessToken(user.id);
     const refreshToken = await this.generateRefreshToken(user.id);
 
-    await response.cookie("access", accessToken, {domain: "qnarabr.vercel.app", httpOnly: true});
-    await response.cookie("refresh", refreshToken, {domain: "qnarabr.vercel.app", httpOnly: true});
+    await response.cookie("access", accessToken, {httpOnly: true});
+    await response.cookie("refresh", refreshToken, {httpOnly: true});
     user.refreshToken = refreshToken;
     await user.save();
     return { message: "success" };
@@ -79,8 +79,8 @@ export class AuthService {
     const newRefreshToken = await this.generateRefreshToken(validated.id);
     user.refreshToken = newRefreshToken;
     await user.save();
-    await response.cookie("access", newAccessToken, {domain: "qnarabr.vercel.app", httpOnly: true, maxAge: 10000000, sameSite: 'none', secure: true });
-    await response.cookie("refresh", newRefreshToken, {domain: "qnarabr.vercel.app", httpOnly: true, maxAge: 10000000, sameSite: 'none', secure: true});
+    await response.cookie("access", newAccessToken, {httpOnly: true});
+    await response.cookie("refresh", newRefreshToken, {httpOnly: true});
     return { message: "success" };
   }
   async generateAccessToken(userId: number) {
